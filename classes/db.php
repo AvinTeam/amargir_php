@@ -1,12 +1,8 @@
 <?php
-
-require_once 'config_test.php';
-//require_once 'config.php';
-
-class DB_Class
+class DB
 {
-    private $connect;
-    private $dbtable;
+    protected $connect;
+    protected $dbtable;
 
     // سازنده کلاس
     public function __construct($table)
@@ -40,37 +36,116 @@ class DB_Class
         }
     }
 
-    public function query($sql, $array = [  ], $style = PDO::FETCH_CLASS)
+    public function query($sql, $params = [  ], $fetchStyle = PDO::FETCH_ASSOC)
     {
-        $stmt = $this->connect->prepare($sql);
+        try {
+            // آماده‌سازی کوئری
+            $stmt = $this->connect->prepare($sql);
 
-        foreach ($array as $key => $value) {
+            // اتصال پارامترها
+            foreach ($params as $key => $value) {
+                // اگر پارامترها به صورت named باشند (مثلاً :id)
+                if (is_string($key)) {
+                    $stmt->bindValue(':' . $key, $value);
+                } else {
+                    // اگر پارامترها به صورت positional باشند (مثلاً ?)
+                    $stmt->bindValue($key + 1, $value);
+                }
+            }
 
-            $stmt->bindvalue($key + 1, $value);
-        } /*foreach*/
+            // اجرای کوئری
+            $stmt->execute();
 
-        $stmt->execute();
+            // اگر کوئری از نوع SELECT باشد، نتایج را برگردان
+            if (stripos($sql, 'SELECT') === 0) {
+                return $stmt->fetchAll($fetchStyle);
+            }
 
-        return $stmt->fetchAll($style);
-
+            // برای کوئری‌های INSERT, UPDATE, DELETE تعداد رکوردهای affected را برگردان
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            // مدیریت خطاها
+            throw new \PDOException("خطا در اجرای کوئری: " . $e->getMessage());
+        }
     } /*query*/
 
     public function created_db()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS `$this->dbtable` (
-                `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-                `name` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-                `slug` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-                `latest_version` varchar(10) NOT NULL,
-                `description` text COLLATE utf8mb4_unicode_520_ci,
-                `author` varchar(100) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-                `type` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-                `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci";
 
-        $this->query($sql);
+        $collate = COLLATE;
+
+        $sql_user = "CREATE TABLE IF NOT EXISTS `mr_user` (
+                        `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                        `user_username` varchar(100) NOT NULL,
+                        `user_password` varchar(50) NOT NULL,
+                        `user_type` varchar(10) NOT NULL,
+                        `user_verify` varchar(50) NOT NULL,
+                        PRIMARY KEY (`id`) )
+                        ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_user);
+
+        $sql_iran = "CREATE TABLE IF NOT EXISTS `mr_iran` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `name` varchar(100) NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_iran);
+
+        $sql_sms = "CREATE TABLE IF NOT EXISTS  `mr_sms` (
+                    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                    `sms_key` int unsigned NOT NULL,
+                    `sms_count` int unsigned NOT NULL,
+                    `mr_date` date NOT NULL,
+                    PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_sms);
+
+        $sql_program_view = "CREATE TABLE IF NOT EXISTS `mr_program_view` (
+                    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                    `p_key` varchar(20) NOT NULL,
+                    `p_count` int unsigned NOT NULL,
+                    `mr_date` date NOT NULL,
+                    PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_program_view);
+
+        $sql_program_mc = "CREATE TABLE IF NOT EXISTS `mr_program_mc` (
+                    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                    `p_key` varchar(20) NOT NULL,
+                    `p_count` int unsigned NOT NULL,
+                    `mr_date` date NOT NULL,
+                    PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_program_mc);
+
+        $sql_gender = "CREATE TABLE IF NOT EXISTS `mr_gender` (
+                    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                    `p_key` varchar(20) NOT NULL,
+                    `male` int unsigned NOT NULL,
+                    `female` int unsigned NOT NULL,
+                    `mr_date` date NOT NULL,
+                    PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_gender);
+
+        $sql_match_clock = "CREATE TABLE IF NOT EXISTS `mr_match_clock` (
+                    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                    `clock_0` int unsigned NOT NULL,
+                    `clock_6` int unsigned NOT NULL,
+                    `clock_12` int unsigned NOT NULL,
+                    `clock_18` int unsigned NOT NULL,
+                    `mr_date` date NOT NULL,
+                    PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
+
+        $this->query($sql_match_clock);
+
     }
 
     public function num(array $where = [  ])
@@ -312,11 +387,9 @@ class DB_Class
 
         $sql = "SELECT SUM($object) FROM `$this->dbtable`";
 
-        $stmt = $this->connect->prepare($sql);
+        $stmt = $this->connect->query($sql);
 
-        $stmt->execute();
-
-        return $stmt->rowCount();
+        return $stmt->fetchColumn();
 
     } /*sum*/
 
