@@ -37,6 +37,7 @@
             <div class="card-body">
                 <h3 class="card-title text-center">ورود</h3>
                 <form action="/form.php" method="POST">
+                <input type="" name="csrf_token" value="<?php echo $_SESSION[ 'csrf_token' ]?>">
                     <div class="form-group">
                         <label for="username" class="text-start">نام کاربری</label>
                         <input type="text" class="form-control" id="username" name="username" required>

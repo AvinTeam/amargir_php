@@ -10,7 +10,7 @@ class DB
 
         $this->connect();
         $this->created_db();
-        $this->dbtable = $table;
+        $this->dbtable = 'mr_' . $table;
     }
 
     private function connect()
@@ -310,45 +310,52 @@ class DB
 
     public function update(array $data, array $where)
     {
-
         $fields     = [  ];
         $conditions = [  ];
         $array      = [  ];
 
+        // ساخت بخش SET کوئری
         foreach ($data as $field => $value) {
             $fields[  ] = "`$field` = ?";
             $array[  ]  = $value;
         }
 
+        // ساخت بخش WHERE کوئری
         foreach ($where as $field => $value) {
             $conditions[  ] = "`$field` = ?";
             $array[  ]      = $value;
         }
 
+        // ترکیب بخش‌های SET و WHERE
         $fields     = implode(', ', $fields);
         $conditions = implode(' AND ', $conditions);
 
+        // ساخت کوئری کامل
         $sql = "UPDATE `$this->dbtable` SET $fields WHERE $conditions";
 
         try {
+            // چاپ کوئری و پارامترها برای دیباگ
+            echo "SQL: " . $sql . "<br>";
+            echo "Params: ";
+            print_r($array);
+            echo "<br>";
 
+            // اجرای کوئری
             $stmt = $this->connect->prepare($sql);
 
             foreach ($array as $key => $value) {
-
-                $stmt->bindvalue($key + 1, $value);
-            } /*foreach*/
+                $stmt->bindValue($key + 1, $value);
+            }
 
             $stmt->execute();
 
-            $res = $stmt->rowCount();
+            // تعداد رکوردهای به‌روزرسانی شده
+            return $stmt->rowCount();
         } catch (\Throwable $th) {
-            //throw $th;
-
-            $res = 0;
+            // نمایش خطا
+            echo "خطا: " . $th->getMessage();
+            return 0;
         }
-        return $res;
-
     } /*update*/
 
     public function delete(array $where)
