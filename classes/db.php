@@ -3,6 +3,7 @@ class DB
 {
     protected $connect;
     protected $dbtable;
+    public $this_query;
 
     // سازنده کلاس
     public function __construct($table)
@@ -85,14 +86,6 @@ class DB
 
         $this->query($sql_user);
 
-        $sql_iran = "CREATE TABLE IF NOT EXISTS `mr_iran` (
-                `id` int NOT NULL AUTO_INCREMENT,
-                `name` varchar(100) NOT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=$collate";
-
-        $this->query($sql_iran);
-
         $sql_sms = "CREATE TABLE IF NOT EXISTS  `mr_sms` (
                     `id` bigint unsigned NOT NULL AUTO_INCREMENT,
                     `sms_key` int unsigned NOT NULL,
@@ -167,7 +160,7 @@ class DB
 
         if (sizeof($where) > 0) {$in_where = "WHERE $conditions";}
 
-        $sql = "SELECT * FROM `$this->dbtable` $in_where  ";
+        $this->this_query = $sql = "SELECT * FROM `$this->dbtable` $in_where  ";
 
         $stmt = $this->connect->prepare($sql);
 
@@ -195,7 +188,7 @@ class DB
         $fields  = '`' . implode('`, `', array_keys($data)) . '`';
         $formats = implode(', ', $formats);
 
-        $sql = "INSERT INTO `$this->dbtable` ($fields) VALUES ($formats)";
+        $this->this_query = $sql = "INSERT INTO `$this->dbtable` ($fields) VALUES ($formats)";
 
         $stmt = $this->connect->prepare($sql);
 
@@ -210,7 +203,7 @@ class DB
 
     } /*insert*/
 
-    public function select(array $where = [  ], $style = PDO::FETCH_CLASS)
+    public function select(array $args = [  ], $style = PDO::FETCH_CLASS)
     {
 
         $where = '1=1 ';
@@ -227,7 +220,7 @@ class DB
                     }
                     $where .= ')';
                 } else {
-                    $where .= " `$key` = " . $value;
+                    $where .= " AND `$key` = " . $value;
 
                 }
 
@@ -264,7 +257,7 @@ class DB
 
         $star = (isset($args[ 'star' ])) ? $args[ 'star' ] : "*";
 
-        $sql = "SELECT $star FROM `$this->dbtable` WHERE $where";
+        $this->this_query = $sql = "SELECT $star FROM `$this->dbtable` WHERE $where";
 
         $stmt = $this->connect->prepare($sql);
 
@@ -291,7 +284,7 @@ class DB
 
         $conditions = implode(' AND ', $conditions);
 
-        $sql = "SELECT $filter FROM `$this->dbtable` WHERE $conditions";
+        $this->this_query = $sql = "SELECT $filter FROM `$this->dbtable` WHERE $conditions";
 
         $stmt = $this->connect->prepare($sql);
 
@@ -331,7 +324,7 @@ class DB
         $conditions = implode(' AND ', $conditions);
 
         // ساخت کوئری کامل
-        $sql = "UPDATE `$this->dbtable` SET $fields WHERE $conditions";
+        $this->this_query = $sql = "UPDATE `$this->dbtable` SET $fields WHERE $conditions";
 
         try {
 
@@ -370,7 +363,7 @@ class DB
 
         $conditions = implode(' AND ', $conditions);
 
-        $sql = "DELETE FROM `$this->dbtable` WHERE $conditions";
+        $this->this_query = $sql = "DELETE FROM `$this->dbtable` WHERE $conditions";
 
         $stmt = $this->connect->prepare($sql);
 
@@ -392,7 +385,7 @@ class DB
 
             foreach ($data as $key => $value) {
 
-                $sqlwhere .= " AND  `$key` = $value ";
+                $sqlwhere .= " AND  `$key` = {$this->set_type($value)} ";
             }
         }
 
@@ -402,12 +395,58 @@ class DB
 
         }
 
-        $sql = "SELECT SUM($object) FROM `$this->dbtable` WHERE 1=1 $sqlwhere";
+        $this->this_query = $sql = "SELECT SUM($object) FROM `$this->dbtable` WHERE 1=1 $sqlwhere";
 
         $stmt = $this->connect->query($sql);
 
         return $stmt->fetchColumn();
 
     } /*sum*/
+
+    public function group(string $object, array $data = [  ], string $group = "", $style = PDO::FETCH_CLASS)
+    {
+        $sqlwhere = "";
+
+        if (! empty($data)) {
+
+            foreach ($data as $key => $value) {
+
+                $sqlwhere .= " AND  `$key` = {$this->set_type($value)} ";
+            }
+        }
+
+        if (! empty($group)) {
+
+            $sqlwhere = " GROUP BY  $group ";
+
+        }
+
+        $this->this_query = $sql = "SELECT $object FROM `$this->dbtable` WHERE 1=1 $sqlwhere";
+
+        $stmt = $this->connect->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll($style);
+
+    } /*sum*/
+
+    protected function set_type($item)
+    {
+        switch (gettype($item)) {
+            case 'integer':
+                return $item;
+                break;
+
+            case 'string':
+                return "'$item'";
+                break;
+
+            default:
+                return $item;
+                break;
+        }
+
+    }
 
 } /*class*/

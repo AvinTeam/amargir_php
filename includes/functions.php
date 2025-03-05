@@ -65,6 +65,22 @@ function tarikh($data, $type = '')
         $new_date = $time;
     } elseif ($type == 'date') {
         $new_date = $ch_date;
+    } elseif ($type == 'w') {
+
+        if (strpos($ch_date, '/')) {
+
+            list($y, $m, $d) = explode('/', $ch_date);
+
+            $ch_date = jalali_to_gregorian($y, $m, $d, '-');
+
+        }
+
+        $timestamp = strtotime($ch_date);
+        $dayOfWeek = date('w', $timestamp);
+
+        $daysOfWeekPersian = [ 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه' ];
+
+        $new_date = $daysOfWeekPersian[ $dayOfWeek ];
     } else {
         $new_date = ($time === 0) ? $ch_date : $ch_date . ' ' . $time;
     }

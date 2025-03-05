@@ -9,7 +9,6 @@ require_once 'config_test.php';
 //require_once 'config.php';
 
 require_once 'classes/db.php';
-require_once 'classes/IRAN.php';
 require_once 'includes/jdf.php';
 require_once 'includes/functions.php';
 

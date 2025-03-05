@@ -3,8 +3,6 @@
 require_once 'setting.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-$Location = "";
-
 if (
     $_SERVER[ 'REQUEST_METHOD' ] === 'POST' &&
     isset($_POST[ 'submit_btn' ]) &&
@@ -32,7 +30,7 @@ if (
 
             );
 
-            setcookie("amargir_login", $user_verify, time() + (15 * 24 * 60), "/");
+            setcookie("amargir_login", $user_verify, time() + (15 * 24 * 60 * 60), "/");
         }
 
     }
@@ -99,6 +97,7 @@ if (
                     } elseif (strpos($row[ 'A' ], 'sms_o_') === 0) {
                         $number = substr($row[ 'A' ], strlen('sms_o_'));
 
+               
                         $is_update = $sms_db->num([
                             'sms_key' => absint($number),
                             'mr_date' => $file_date ]);
@@ -119,21 +118,10 @@ if (
                                 'sms_count' => absint($row[ 'C' ]),
                                 'mr_date'   => $file_date,
                              ]);
-                        }
+                        }            
 
                     } elseif (strpos($row[ 'A' ], 'p_view_') === 0) {
                         $type = substr($row[ 'A' ], strlen('p_view_'));
-
-                        $old_sum = $program_view_db->sum(
-                            'p_count',
-                            [
-                                'p_key'   => $type,
-                                'mr_date' => $file_date,
-                             ],
-                            "DATE(mr_date) <= '$file_date'"
-                        );
-
-                        $row[ 'C' ] -= $old_sum;
 
                         $is_update = $program_view_db->num([
                             'p_key'   => $type,
@@ -270,8 +258,6 @@ if (
 
                     }
                 }
-
-                exit;
             } catch (Exception $e) {
                 die("خطا در خواندن فایل اکسل: " . $e->getMessage());
             }
@@ -281,6 +267,6 @@ if (
 
     }
 
-    header('Location: /' . $Location);
+    header('Location: /');
 
 }

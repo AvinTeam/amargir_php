@@ -113,6 +113,10 @@
     --bs-body-font-family: 'IRANSansX';
 }
 
+*{
+    font-family: 'IRANSansX';
+}
+
 a {
     text-decoration: none;
 }
@@ -145,13 +149,27 @@ body {
     padding: 20px;
 }
 
-.box {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    margin-bottom: 20px;
+.border_gray {
+    border-color: #dee2e6;
 }
+
+.accordion-button::after {
+    margin-left: 0px;
+}
+
+#container {
+    height: 500px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+
 
 @media (max-width: 900px) {}
 

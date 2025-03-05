@@ -1,11 +1,5 @@
 <?php
 
-$iran_area = new IRAN('iran');
-
-if (! $iran_area->num()) {
-    $iran_area->insert_old_data();
-}
-
 if (isset($_COOKIE[ 'amargir_login' ])) {
 
     $user_db = new DB('user');
