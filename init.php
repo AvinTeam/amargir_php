@@ -1,5 +1,7 @@
 <?php
 
+$test = new DB('');
+
 if (isset($_COOKIE[ 'amargir_login' ])) {
 
     $user_db = new DB('user');
@@ -10,22 +12,14 @@ if (isset($_COOKIE[ 'amargir_login' ])) {
 
     if (! $user) {
 
-        $_SESSION = [  ];
+        print_r($user);
 
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params[ "path" ],
-                $params[ "domain" ],
-                $params[ "secure" ],
-                $params[ "httponly" ]
-            );
-        }
+        $_SESSION = [  ];
+        setcookie('amargir_login', '', time() - 3600, '/'); // حذف کوکی
 
         session_destroy();
+
+        header('Location: ' . AMARGIR_URL);
 
     }
 

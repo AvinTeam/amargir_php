@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورود اطلاعات</title>
-    <link href="/assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
-    <link href="/assets/vendor/jalalidatepicker/jalalidatepicker.min.css" rel="stylesheet">
-    <link href="/assets/css/public.css" rel="stylesheet">
+    <link href="<?php echo AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="<?php echo AMARGIR_URL?>assets/vendor/jalalidatepicker/jalalidatepicker.min.css" rel="stylesheet">
+    <link href="<?php echo AMARGIR_URL?>assets/css/public.css" rel="stylesheet">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
         <h1>ورود اطلاعات</h1>
         <div>
 
-            <a href="/" class="btn btn-info">داشبورد</a>
+            <a href="<?php echo AMARGIR_URL?>" class="btn btn-info">داشبورد</a>
             <button class="btn btn-danger">خروج</button>
         </div>
     </header>
@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title text-center">ورود اطلاعات</h3>
-                <form action="/form.php" method="POST"  enctype="multipart/form-data">
+                <form action="<?php echo AMARGIR_URL?>form.php" method="POST"  enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION[ 'csrf_token' ] ?>">
                     <div class="form-group">
                         <label for="date_file" class="text-start">تاریخ</label>
@@ -42,10 +42,10 @@
         </div>
     </div>
 
-    <script src="/assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
-    <script src="/assets/vendor/jalalidatepicker/jalalidatepicker.min.js"></script>
-    <script src="/assets/js/public.js"></script>
+    <script src="<?php echo AMARGIR_URL?>assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="<?php echo AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="<?php echo AMARGIR_URL?>assets/vendor/jalalidatepicker/jalalidatepicker.min.js"></script>
+    <script src="<?php echo AMARGIR_URL?>assets/js/public.js"></script>
 </body>
 
 </html>

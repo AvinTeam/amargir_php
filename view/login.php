@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورود</title>
-    <link href="/assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
-    <link href="/assets/css/public.css" rel="stylesheet">
+    <link href="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="<?=AMARGIR_URL?>assets/css/public.css" rel="stylesheet">
 
 </head>
 
@@ -16,7 +16,7 @@
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title text-center">ورود</h3>
-                <form action="/form.php" method="POST">
+                <form action="<?=AMARGIR_URL?>form.php" method="POST">
                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION[ 'csrf_token' ] ?>">
                     <div class="form-group">
                         <label for="username" class="text-start">نام کاربری</label>
@@ -33,8 +33,8 @@
         </div>
     </div>
 
-    <script src="/assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="/assets//vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@
     $program_mc_db   = new DB('program_mc');
     $program_view_db = new DB('program_view');
 
+
     $today = date('Y-m-d');
 
     $labels3000212 = $data3000212 = $labels30001145 = $data30001145 = [  ];
@@ -89,13 +90,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>داشبورد</title>
-    <link href="/assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
-    <link href="/assets/css/public.css" rel="stylesheet">
+    <link href="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="<?=AMARGIR_URL?>assets/css/public.css" rel="stylesheet">
 
-    <script src="/assets/vendor/chart/chart.js"></script>
-    <script src="/assets/vendor/chart/chartjs-plugin-datalabels.js"></script>
-    <script src="/assets/js/highmaps.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/vendor/chart/chart.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/vendor/chart/chartjs-plugin-datalabels.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/js/highmaps.js"></script>
 
     <style>
 
@@ -107,7 +108,7 @@
         <h1>داشبورد</h1>
         <div>
             <?php if ($user->user_type == 'admin') {?>
-            <a href="/?import" class="btn btn-info">ورود اطلاعات</a>
+            <a href="<?php echo AMARGIR_URL?>?import" class="btn btn-info">ورود اطلاعات</a>
             <?php }?>
             <button class="btn btn-danger">خروج</button>
         </div>
@@ -464,10 +465,10 @@
 
     })();
     </script>
-    <script src="/assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
-    <script src="/assets/vendor/jalalidatepicker/jalalidatepicker.min.js"></script>
-    <script src="/assets/js/public.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/vendor/jalalidatepicker/jalalidatepicker.min.js"></script>
+    <script src="<?=AMARGIR_URL?>assets/js/public.js"></script>
 </body>
 
 </html>

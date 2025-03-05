@@ -97,7 +97,6 @@ if (
                     } elseif (strpos($row[ 'A' ], 'sms_o_') === 0) {
                         $number = substr($row[ 'A' ], strlen('sms_o_'));
 
-               
                         $is_update = $sms_db->num([
                             'sms_key' => absint($number),
                             'mr_date' => $file_date ]);
@@ -118,7 +117,7 @@ if (
                                 'sms_count' => absint($row[ 'C' ]),
                                 'mr_date'   => $file_date,
                              ]);
-                        }            
+                        }
 
                     } elseif (strpos($row[ 'A' ], 'p_view_') === 0) {
                         $type = substr($row[ 'A' ], strlen('p_view_'));
@@ -267,6 +266,6 @@ if (
 
     }
 
-    header('Location: /');
+    header('Location: ' . AMARGIR_URL);
 
 }

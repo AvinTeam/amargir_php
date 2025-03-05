@@ -14,4 +14,7 @@ define('DB_PASSWORD', '');
 /** Database Table  */
 define('COLLATE', 'utf8mb4_0900_ai_ci');
 
+/** AMARGIR_URL  */
+define('AMARGIR_URL', 'http://amargir.test/');
+
 
