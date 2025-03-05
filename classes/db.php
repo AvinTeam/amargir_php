@@ -334,11 +334,6 @@ class DB
         $sql = "UPDATE `$this->dbtable` SET $fields WHERE $conditions";
 
         try {
-            // چاپ کوئری و پارامترها برای دیباگ
-            echo "SQL: " . $sql . "<br>";
-            echo "Params: ";
-            print_r($array);
-            echo "<br>";
 
             // اجرای کوئری
             $stmt = $this->connect->prepare($sql);
@@ -389,10 +384,25 @@ class DB
 
     } /*delete*/
 
-    public function sum(string $object): int | string
+    public function sum(string $object, array $data, string $where = ""): int | string
     {
+        $sqlwhere = "";
 
-        $sql = "SELECT SUM($object) FROM `$this->dbtable`";
+        if (! empty($data)) {
+
+            foreach ($data as $key => $value) {
+
+                $sqlwhere .= " AND  `$key` = $value ";
+            }
+        }
+
+        if (! empty($where)) {
+
+            $sqlwhere = " AND  $where ";
+
+        }
+
+        $sql = "SELECT SUM($object) FROM `$this->dbtable` WHERE 1=1 $sqlwhere";
 
         $stmt = $this->connect->query($sql);
 

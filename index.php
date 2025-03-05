@@ -1,8 +1,6 @@
 <?php
 require_once 'setting.php';
 
-$haspage = (isset($_COOKIE[ 'amargir_login' ])) ? 'dashbord' : 'login';
+$haspage = (isset($_COOKIE[ 'amargir_login' ])) ? 'home' : 'login';
 
-require_once $haspage . ".php";
-
-
+require_once 'view/' . $haspage . ".php";

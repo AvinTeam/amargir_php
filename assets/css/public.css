@@ -118,6 +118,40 @@ a {
 }
 
 
+.header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+.form-group label,
+.btn {
+    font-size: 1.25rem;
+    /* Larger font size */
+}
+
+.card {
+    width: 100%;
+    /* Full width */
+    max-width: 500px;
+    /* Maximum width */
+}
+
+body {
+    direction: rtl;
+}
+
+
+.content {
+    padding: 20px;
+}
+
+.box {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
 
 @media (max-width: 900px) {}
 

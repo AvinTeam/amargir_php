@@ -8,36 +8,16 @@
     <link href="/assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
     <link href="/assets/css/public.css" rel="stylesheet">
-    <style>
-    .login-container {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
-    .form-group label,
-    .btn {
-        font-size: 1.25rem;
-        /* Larger font size */
-    }
-
-    .card {
-        width: 100%;
-        /* Full width */
-        max-width: 500px;
-        /* Maximum width */
-    }
-    </style>
 </head>
 
 <body>
-    <div class="container login-container">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title text-center">ورود</h3>
                 <form action="/form.php" method="POST">
-                <input type="" name="csrf_token" value="<?php echo $_SESSION[ 'csrf_token' ]?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION[ 'csrf_token' ] ?>">
                     <div class="form-group">
                         <label for="username" class="text-start">نام کاربری</label>
                         <input type="text" class="form-control" id="username" name="username" required>
@@ -46,7 +26,8 @@
                         <label for="password" class="text-end">رمز عبور</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" name="submit_btn" value="login" class="btn btn-primary btn-block">ورود</button>
+                    <button type="submit" name="submit_btn" value="login"
+                        class="btn btn-primary btn-block">ورود</button>
                 </form>
             </div>
         </div>
