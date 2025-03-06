@@ -5,7 +5,6 @@
     $program_mc_db   = new DB('program_mc');
     $program_view_db = new DB('program_view');
 
-
     $today = date('Y-m-d');
 
     $labels3000212 = $data3000212 = $labels30001145 = $data30001145 = [  ];
@@ -90,13 +89,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>داشبورد</title>
-    <link href="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
-    <link href="<?=AMARGIR_URL?>assets/css/public.css" rel="stylesheet">
+    <link href="<?php echo amargir_vendor('bootstrap/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo amargir_vendor('bootstrap/bootstrap.rtl.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo amargir_css('public.css') ?>" rel="stylesheet">
 
-    <script src="<?=AMARGIR_URL?>assets/vendor/chart/chart.js"></script>
-    <script src="<?=AMARGIR_URL?>assets/vendor/chart/chartjs-plugin-datalabels.js"></script>
-    <script src="<?=AMARGIR_URL?>assets/js/highmaps.js"></script>
+    <script src="<?php echo amargir_vendor('chart/chart.js') ?>"></script>
+    <script src="<?php echo amargir_vendor('chart/chartjs-plugin-datalabels.js') ?>"></script>
+    <script src="<?php echo amargir_js('highmaps.js') ?>"></script>
 
     <style>
 
@@ -108,7 +107,7 @@
         <h1>داشبورد</h1>
         <div>
             <?php if ($user->user_type == 'admin') {?>
-            <a href="<?php echo AMARGIR_URL?>?import" class="btn btn-info">ورود اطلاعات</a>
+            <a href="<?php echo AMARGIR_URL ?>?import" class="btn btn-info">ورود اطلاعات</a>
             <?php }?>
             <button class="btn btn-danger">خروج</button>
         </div>
@@ -311,6 +310,7 @@
 
     let all_mc_title = JSON.parse('<?php echo json_encode(($all_mc_title)); ?>');
     let all_mc_count = JSON.parse('<?php echo json_encode(($all_mc_count)); ?>');
+    all_mc_count = all_mc_count.map(Number);
 
 
     let genderMatch1 = JSON.parse(
@@ -321,13 +321,15 @@
 
 
     let netRows = JSON.parse('<?php echo json_encode(array_values((array) $net_rows[ 0 ])); ?>');
+    netRows = netRows.map(Number);
 
 
+    console.log(netRows);
 
     (async () => {
 
         const topology = await fetch(
-            '/json/ir-all.topo.json'
+            '<?=amargir_json('ir-all.topo.json')?>'
         ).then(response => response.json());
 
         // نام‌های فارسی استان‌ها
@@ -465,10 +467,10 @@
 
     })();
     </script>
-    <script src="<?=AMARGIR_URL?>assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="<?=AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.js"></script>
-    <script src="<?=AMARGIR_URL?>assets/vendor/jalalidatepicker/jalalidatepicker.min.js"></script>
-    <script src="<?=AMARGIR_URL?>assets/js/public.js"></script>
+    <script src="<?php echo amargir_js('jquery-3.7.1.min.js') ?>" crossorigin="anonymous"></script>
+    <script src="<?php echo amargir_vendor('bootstrap/bootstrap.min.js') ?>"></script>
+    <script src="<?php echo amargir_vendor('jalalidatepicker/jalalidatepicker.min.js') ?>"></script>
+    <script src="<?php echo amargir_js('public.js') ?>"></script>
 </body>
 
 </html>

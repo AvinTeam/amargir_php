@@ -1,5 +1,26 @@
 <?php
 
+
+function amargir_js($path)
+{
+    return AMARGIR_URL.'assets/js/' . $path . '?ver=' . AMARGIR_VERSION;
+}
+
+function amargir_css($path)
+{
+    return AMARGIR_URL .'assets/css/' . $path . '?ver=' . AMARGIR_VERSION;
+}
+
+function amargir_vendor($path)
+{
+    return AMARGIR_URL .'assets/vendor/' . $path . '?ver=' . AMARGIR_VERSION;
+}
+
+function amargir_json($path)
+{
+    return AMARGIR_URL .'json/' . $path . '?ver=' . AMARGIR_VERSION;
+}
+
 function sanitize_text($text)
 {
     $text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');

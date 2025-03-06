@@ -162,6 +162,19 @@ if (chartMc) {
                 bodyFont: {
                     size: 14,
                     family: 'IRANSansX' // استفاده از فونت IRANSansX
+                },
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                        const value = context.raw || 0;
+                        if (value === 0) return label + '0%'; // اگر مقدار صفر باشد
+                        const percentage = Math.round((value / total) * 100) + '%';
+                        return label + percentage;
+                    }
                 }
             },
             // افزودن متن داخل نمودار
@@ -173,14 +186,17 @@ if (chartMc) {
                     family: 'IRANSansX' // استفاده از فونت IRANSansX
                 },
                 formatter: (value, context) => {
-                    //return context.chart.data.labels[context.dataIndex]; // نمایش عنوان هر بخش
+                    const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                    if (value === 0) return ''; // اگر مقدار صفر باشد، چیزی نمایش نده
+                    const percentage = Math.round((value / total) * 100) + '%';
+                    return percentage; // نمایش درصد
                 }
             }
         }
     };
 
     // ایجاد نمودار
-    const myDoughnutChartMc = new Chart(chartMc, {
+    new Chart(chartMc, {
         type: 'doughnut',
         data: data,
         options: options,
@@ -249,7 +265,7 @@ if (myChartApp) {
     };
 
     // ایجاد نمودار
-    const myDoughnutChartMc = new Chart(myChartApp, {
+   new Chart(myChartApp, {
         type: 'doughnut',
         data: data,
         options: options,
@@ -318,7 +334,7 @@ if (myChartInfo) {
     };
 
     // ایجاد نمودار
-    const myDoughnutChartMc = new Chart(myChartInfo, {
+    new Chart(myChartInfo, {
         type: 'doughnut',
         data: data,
         options: options,
@@ -377,6 +393,19 @@ if (myChartTime) {
                 bodyFont: {
                     size: 14,
                     family: 'IRANSansX' // استفاده از فونت IRANSansX
+                },
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                        const value = context.raw || 0;
+                        if (value === 0) return label + '0%'; // اگر مقدار صفر باشد
+                        const percentage = Math.round((value / total) * 100) + '%';
+                        return label + percentage;
+                    }
                 }
             },
             // افزودن متن داخل نمودار
@@ -388,7 +417,10 @@ if (myChartTime) {
                     family: 'IRANSansX' // استفاده از فونت IRANSansX
                 },
                 formatter: (value, context) => {
-                    //return context.chart.data.labels[context.dataIndex]; // نمایش عنوان هر بخش
+                    const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                    if (value === 0) return ''; // اگر مقدار صفر باشد، چیزی نمایش نده
+                    const percentage = Math.round((value / total) * 100) + '%';
+                    return percentage; // نمایش درصد بدون اعشار
                 }
             }
         }

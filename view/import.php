@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورود اطلاعات</title>
-    <link href="<?php echo AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.rtl.min.css" rel="stylesheet">
-    <link href="<?php echo AMARGIR_URL?>assets/vendor/jalalidatepicker/jalalidatepicker.min.css" rel="stylesheet">
-    <link href="<?php echo AMARGIR_URL?>assets/css/public.css" rel="stylesheet">
+    <link href="<?php echo amargir_vendor('bootstrap/bootstrap.min.css')?>" rel="stylesheet">
+    <link href="<?php echo amargir_vendor('bootstrap/bootstrap.rtl.min.css')?>" rel="stylesheet">
+    <link href="<?php echo amargir_vendor('jalalidatepicker/jalalidatepicker.min.css')?>" rel="stylesheet">
+    <link href="<?php echo amargir_css('public.css')?>" rel="stylesheet">
 </head>
 
 <body>
@@ -42,10 +42,10 @@
         </div>
     </div>
 
-    <script src="<?php echo AMARGIR_URL?>assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="<?php echo AMARGIR_URL?>assets/vendor/bootstrap/bootstrap.min.js"></script>
-    <script src="<?php echo AMARGIR_URL?>assets/vendor/jalalidatepicker/jalalidatepicker.min.js"></script>
-    <script src="<?php echo AMARGIR_URL?>assets/js/public.js"></script>
+    <script src="<?php echo amargir_js('jquery-3.7.1.min.js')?>" crossorigin="anonymous"></script>
+    <script src="<?php echo amargir_vendor('bootstrap/bootstrap.min.js')?>"></script>
+    <script src="<?php echo amargir_vendor('jalalidatepicker/jalalidatepicker.min.js')?>"></script>
+    <script src="<?php echo amargir_js('public.js')?>"></script>
 </body>
 
 </html>
